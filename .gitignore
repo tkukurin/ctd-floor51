@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# env / uv
+.venv/
+venv/
+.uv-cache/
+
+# macOS
+.DS_Store
+
+# data — large, not tracked
+documents/
+ema_documents_all_en_only_en.json
+
+# IDE
+.vscode/
+.idea/

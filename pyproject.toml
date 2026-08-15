@@ -1,0 +1,31 @@
+[project]
+name = "tk-data-ctd"
+version = "0.1.0"
+description = "CLI for investigating the CTD Commons / EMA regulatory document collection"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.1",
+    "duckdb>=1.1",
+    "pandas>=2.2",
+]
+
+[project.scripts]
+ctd = "tk.data.ctd.cli:main"
+
+[project.optional-dependencies]
+analysis = [
+    "pyreadstat>=1.2",
+    "lxml>=5",
+    "pdfplumber>=0.11",
+]
+docs = [
+    "markitdown>=0.0.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tk"]
