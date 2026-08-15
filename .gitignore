@@ -16,7 +16,7 @@ venv/
 
 # data — large, not tracked
 documents/
-ema_documents_all_en_only_en.json
+ema-texts/
 
 # IDE
 .vscode/

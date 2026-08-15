@@ -1,17 +1,27 @@
-# tk-data-ctd
+# ctd-floor51
 
-CLI for investigating the **CTD Commons / EMA** regulatory document collection.
+For context see [complex systems podcast with Ruxandra Teslo](https://www.complexsystemspodcast.com/episodes/ruxandra-teslo/).
+
+> We as a society essentially burn the lab notes every time we go through a $1 billion process to get a drug into play. And so this Common Technical Documents thing that you're proposing is a proposal to not burn the lab notes anymore.
+
+Here we fetch currently active list of the files.
 
 ```bash
-uv sync                       # core: click, duckdb, pandas
-uv sync --extra analysis      # + pyreadstat, lxml, pdfplumber
-uv sync --extra docs          # + markitdown
+uv sync
+uv sync --extra analysis
+uv sync --extra docs
 
-uv run ctd inventory        # file-type counts per collection
-uv run ctd ema-summary      # doc-type counts from the EMA JSON
-uv run ctd manifest         # (stub) flatten toc.json -> manifest table
+uv run ctd get icosian
+uv run ctd get ema --yes
+uv run ctd get ema --yes --all-types   # every EMA document PDF, not just EPAR
+uv run ctd inventory
+uv run ctd ema-summary
+uv run ctd toc [COLLECTION]
+uv run ctd manifest
 ```
 
+`get ema` writes/refreshes `ema-texts/all_docs.json` (all-English EMA documents feed,
+~70k records); `ema-summary` reads that same file.
 
 ## What's in CTD commons (Aug 2026)
 
@@ -21,7 +31,7 @@ uv run ctd manifest         # (stub) flatten toc.json -> manifest table
 |---|---|---|
 | `RDCP-A26-0001/0002/0003` | ~3,639 | One drug (ALLN-177 / reloxaliase, Allena Pharma) full eCTD submission: `1) Administrative`, `2) Summaries`, `3) Quality`, `4) Nonclinical`, `5) Clinical`. Per-study CSRs, protocols, TLFs, CDISC datasets. |
 | `RDCP-E26-EMA` | 1,149 | EMA EPAR corpus, shelved by `EMEA-H-C-NNN/<doc-id>/` and also by ATC class under `By-ATC/`. |
-| `ema_documents_all_en_only_en.json` | — | 69,325 structured EMA records (`id, name, type, status, dates, reference_number, document_url`). ~30 doc types. |
+| `all_docs.json` | — | ~70k structured EMA records (`id, name, type, status, dates, reference_number, document_url`), ~85 doc types; refreshed by `ctd get ema`. |
 
 **Grouping is already mostly done** — each collection has `index-full.json` + `files/toc.json`,
 recursive trees where every node carries `drug`, `accession`, `type`, `path`. Walk once → flat
