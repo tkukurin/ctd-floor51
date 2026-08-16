@@ -1,5 +1,7 @@
 # ctd-floor51
 
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-blue)](https://huggingface.co/datasets/tkukurin/ctd-commons-manifest)
+
 For context see [complex systems podcast with Ruxandra Teslo](https://www.complexsystemspodcast.com/episodes/ruxandra-teslo/).
 
 > We as a society essentially burn the lab notes every time we go through a $1 billion process to get a drug into play. And so this Common Technical Documents thing that you're proposing is a proposal to not burn the lab notes anymore.
@@ -18,6 +20,8 @@ uv run ctd inventory
 uv run ctd ema-summary
 uv run ctd toc [COLLECTION]
 uv run ctd manifest
+uv run ctd export-hf
+uv run ctd ui
 ```
 
 `get ema` writes/refreshes `ema-texts/all_docs.json` (all-English EMA documents feed,
