@@ -21,3 +21,4 @@ ema-texts/
 # IDE
 .vscode/
 .idea/
+*.nogit

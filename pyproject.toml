@@ -22,6 +22,9 @@ analysis = [
 docs = [
     "markitdown>=0.0.1",
 ]
+huggingface = [
+    "datasets>=3.0",
+]
 
 [build-system]
 requires = ["hatchling"]
