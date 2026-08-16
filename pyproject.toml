@@ -28,6 +28,7 @@ huggingface = [
 ui = [
     "gradio>=4.40",
     "pandas>=2.2",
+    "pyarrow>=14.0",
 ]
 
 [build-system]

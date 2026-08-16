@@ -298,7 +298,7 @@ class Ui:
             )
 
         print(f"Starting UI for {parquet_path} on port {self.port}...")
-        ui.launch(parquet_path, share=self.share, server_port=self.port)
+        ui.launch(parquet_path, root, share=self.share, server_port=self.port)
 
 
 @dataclass

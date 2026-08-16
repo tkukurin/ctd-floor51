@@ -2546,6 +2546,7 @@ huggingface = [
 ui = [
     { name = "gradio" },
     { name = "pandas" },
+    { name = "pyarrow" },
 ]
 
 [package.metadata]
@@ -2558,6 +2559,7 @@ requires-dist = [
     { name = "pandas", specifier = ">=2.2" },
     { name = "pandas", marker = "extra == 'ui'", specifier = ">=2.2" },
     { name = "pdfplumber", marker = "extra == 'analysis'", specifier = ">=0.11" },
+    { name = "pyarrow", marker = "extra == 'ui'", specifier = ">=14.0" },
     { name = "pyreadstat", marker = "extra == 'analysis'", specifier = ">=1.2" },
     { name = "simple-parsing", specifier = ">=0.1.9" },
 ]
