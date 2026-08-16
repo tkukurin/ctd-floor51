@@ -21,10 +21,18 @@ except ImportError:
 
 try:
     from datasets import Dataset
-    from .transform.hf import build_manifest
+
+    from .transform.hf import build_manifest, push_to_hub, write_dataset_card
 except ImportError:
     Dataset = None
     build_manifest = None
+    push_to_hub = None
+    write_dataset_card = None
+
+try:
+    from . import ui
+except ImportError:
+    ui = None
 
 
 FIELDS = ["accession", "drug", "type", "name", "path", "depth", "is_leaf"]
@@ -234,9 +242,10 @@ class ExportHf:
         default=Path("exports/huggingface/manifest.parquet"), positional=True
     )
     include_ema: bool = flag(default=False, alias="include-ema")
+    push_to: str | None = field(default=None, alias="push")
 
     def execute(self, root: Path) -> None:
-        if Dataset is None or build_manifest is None:
+        if Dataset is None or build_manifest is None or write_dataset_card is None:
             _die("The 'huggingface' extra is required (uv sync --extra huggingface)")
 
         if not (docs_dir := root / "documents").is_dir():
@@ -254,12 +263,49 @@ class ExportHf:
         ds.to_parquet(str(out_path))
         print(f"Exported {len(ds)} records to {out_path}")
 
+        readme_path = write_dataset_card(out_path.parent)
+        print(f"Exported dataset card to {readme_path}")
+
+        if self.push_to:
+            print(f"Pushing to Hugging Face Hub: {self.push_to}...")
+            try:
+                url = push_to_hub(self.push_to, out_path, readme_path, private=True)
+                print(f"Success! Dataset available at: {url}")
+            except Exception as e:
+                _die(
+                    f"Failed to push to Hub: {e}\n(Make sure you run `huggingface-cli login` first)"
+                )
+
+
+@dataclass
+class Ui:
+    """Launch a local minimal web UI to view the Hugging Face manifest."""
+
+    path: Path = field(
+        default=Path("exports/huggingface/manifest.parquet"), positional=True
+    )
+    port: int = flag(default=7860)
+    share: bool = flag(default=False)
+
+    def execute(self, root: Path) -> None:
+        if ui is None:
+            _die("The 'ui' extra is required (uv sync --extra ui)")
+
+        parquet_path = root / self.path
+        if not parquet_path.exists():
+            _die(
+                f"Parquet file not found at {parquet_path}. Run `ctd export-hf` first."
+            )
+
+        print(f"Starting UI for {parquet_path} on port {self.port}...")
+        ui.launch(parquet_path, share=self.share, server_port=self.port)
+
 
 @dataclass
 class Program:
     """Investigate the CTD Commons / EMA regulatory document collection."""
 
-    command: Get | Inventory | EmaSummary | Toc | Manifest | ExportHf = subparsers(
+    command: Get | Inventory | EmaSummary | Toc | Manifest | ExportHf | Ui = subparsers(
         {
             "get": Get,
             "inventory": Inventory,
@@ -267,6 +313,7 @@ class Program:
             "toc": Toc,
             "manifest": Manifest,
             "export-hf": ExportHf,
+            "ui": Ui,
         }
     )
     root: Path | None = None

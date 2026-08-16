@@ -25,6 +25,10 @@ docs = [
 huggingface = [
     "datasets>=3.0",
 ]
+ui = [
+    "gradio>=4.40",
+    "pandas>=2.2",
+]
 
 [build-system]
 requires = ["hatchling"]
