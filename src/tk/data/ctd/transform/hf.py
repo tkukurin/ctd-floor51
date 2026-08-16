@@ -86,6 +86,8 @@ tags:
 ---
 # CTD Commons Dataset Manifest
 
+See **[GitHub Repository](https://github.com/tkukurin/ctd-floor51)** for source and build scripts for this dataset.
+
 Dataset manifest mapping files from the [CTD Commons](https://www.ctdcommons.org/) initiative. The initiative acquires, de-identifies, and publishes regulatory dossiers from bankrupt or defunct biotechs to prevent clinical trial data loss.
 
 This manifest provides structured metadata and stable checksums for heterogeneous regulatory files (PDFs, XPTs, SAS scripts) hosted on [archive.icosian.net](https://archive.icosian.net/).
@@ -110,21 +112,6 @@ CTD data is product- and submission-centred. It preserves the evidence trail aro
 
 - **RDCP-A26-0001 / 0002 / 0003**: Full eCTD submission for ALLN-177 (reloxaliase, Allena Pharma). Contains ~3,639 files including per-study CSRs, protocols, TLFs, and CDISC datasets (`.xpt`, `.sas7bdat`).
 - **RDCP-E26-EMA**: EMA European Public Assessment Reports (EPAR) corpus documents.
-
-## Recommended Tooling
-
-- **DuckDB**: Query the Parquet manifest and join across accession, drug, or study.
-- **pyreadstat**: Read `.xpt` (XPORT) and `.sas7bdat` clinical tables into pandas.
-- **lxml**: Parse `define.xml` into ItemDefs and CodeLists.
-- **Pinnacle21 Community**: View `define.xml` and run SDTM/ADaM conformance checks.
-- **markitdown** / **Apache Tika**: Extract text from heterogeneous documents.
-- **docling** / **pdfplumber**: Extract PDF tables.
-
-## Background
-
-- **[CTD Commons](https://www.ctdcommons.org/)**: Open-access initiative publishing regulatory dossiers.
-- **[The Forgotten Files Project](https://ifp.org/wp-content/uploads/The-Forgotten-Files-Project-Teslo.pdf)**: Policy proposal by Ruxandra Teslo outlining the framework for recovering abandoned trial data.
-- **[archive.icosian.net](https://archive.icosian.net/)**: Archive hosting the initial CTD accession packages.
 """
     readme_path = out_dir / "README.md"
     readme_path.write_text(content)
