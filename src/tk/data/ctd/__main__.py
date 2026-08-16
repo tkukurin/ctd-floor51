@@ -284,7 +284,7 @@ class Ui:
     path: Path = field(
         default=Path("exports/huggingface/manifest.parquet"), positional=True
     )
-    port: int = flag(default=7860)
+    port: int = field(default=7860)
     share: bool = flag(default=False)
 
     def execute(self, root: Path) -> None:
